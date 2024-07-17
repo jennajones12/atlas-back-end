@@ -10,7 +10,7 @@ if __name__ == "__main__":
     if len(sys.argv) != 2:
         print("Usage: python3 script.py <user_id>")
         sys.exit(1)
-    
+
     user_id = sys.argv[1]
 
     # Define the base URL for the JSON API
@@ -24,7 +24,9 @@ if __name__ == "__main__":
         username = user.get("username")
 
         # Fetch the to-do list items associated with the user ID
-        todos_response = requests.get(f"{base_url}todos", params={"userId": user_id})
+        todos_response = requests.get(
+            f"{base_url}todos", params={
+                "userId": user_id})
         todos_response.raise_for_status()  # Raise an error for non-200 status codes
         todos = todos_response.json()
 
@@ -34,7 +36,8 @@ if __name__ == "__main__":
             csv_writer.writerow(["User ID", "Username", "Completed", "Title"])
 
             for todo in todos:
-                csv_writer.writerow([user_id, username, todo["completed"], todo["title"]])
+                csv_writer.writerow(
+                    [user_id, username, todo["completed"], todo["title"]])
 
         print(f"CSV file '{user_id}.csv' has been successfully created.")
 
@@ -43,5 +46,6 @@ if __name__ == "__main__":
         sys.exit(1)
 
     except (KeyError, IndexError) as e:
-        print(f"Error: {e}. Please check if the provided user ID '{user_id}' is valid.")
+        print(
+            f"Error: {e}. Please check if the provided user ID '{user_id}' is valid.")
         sys.exit(1)
