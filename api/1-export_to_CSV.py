@@ -1,4 +1,4 @@
-i#!/usr/bin/python3
+#!/usr/bin/python3
 """Exports to-do list info for a given employee ID to CSV format.
 """
 
