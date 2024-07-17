@@ -47,5 +47,5 @@ if __name__ == "__main__":
 
     except (KeyError, IndexError) as e:
         print(
-            f"Error: {e}. Please check if the provided user ID '{user_id}' is valid.")
+            f"Error: {e}. check if the provided user ID '{user_id}' is valid.")
         sys.exit(1)
