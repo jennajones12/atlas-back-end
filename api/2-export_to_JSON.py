@@ -22,13 +22,17 @@ if __name__ == "__main__":
         username = user.get("username")
 
         # Fetch the to-do list items associated with the user ID
-        todos_response = requests.get(f"{base_url}todos", params={"userId": user_id})
+        todos_response = requests.get(
+            f"{base_url}todos", params={
+                "userId": user_id})
         todos_response.raise_for_status()
         todos = todos_response.json()
 
         # Construct JSON data structure
         json_data = {
-            user_id: [{"task": todo["title"], "completed": todo["completed"], "username": username} for todo in todos]
+            user_id: [{"task": todo["title"],
+                       "completed": todo["completed"],
+                       "username": username} for todo in todos]
         }
 
         # Write JSON data to file
@@ -42,5 +46,6 @@ if __name__ == "__main__":
         sys.exit(1)
 
     except (KeyError, IndexError) as e:
-        print(f"Error: {e}. Please check if the provided user ID '{user_id}' is valid.")
+        print(
+            f"Error: {e}. Please check if the provided user ID '{user_id}' is valid.")
         sys.exit(1)
