@@ -2,23 +2,35 @@
 """
 Returns to-do list information for a given employee ID.
 """
-
-import requests
+import json
 import sys
+import urllib.request
 
+base_url = "https://jsonplaceholder.typicode.com/"
 
 if __name__ == "__main__":
-    url = "https://jsonplaceholder.typicode.com/"
 
-    employee_id = sys.argv[1]
-    user = requests.get(url + "users/{}".format(employee_id)).json()
+    if len(sys.argv) > 1:
+        employee_id = int(sys.argv[1])
+        url = base_url + "users/{}".format(employee_id)
+        with urllib.request.urlopen(url) as response:
+            user_data = response.read()
+        user = json.loads(user_data)
+        employee_name = user["name"]
 
-    params = {"userId": employee_id}
-    todos = requests.get(url + "todos", params).json()
+        url = base_url + "todos?userId={}".format(employee_id)
+        with urllib.request.urlopen(url) as response:
+            todos_data = response.read()
+            todos = json.loads(todos_data)
 
-    completed = [t.get("title") for t in todos if t.get("completed") is True]
+            completed = [todo["title"] for todo in todos if todo["completed"]]
+        total_tasks = len(todos)
+        completed_tasks_count = len(completed)
 
-    print("Employee {} is done with tasks({}/{}):".format(
-        user.get("name"), len(completed), len(todos)))
+        print("Employee {} is done with tasks({}/{}):".format(
+            employee_name, completed_tasks_count, total_tasks))
 
-    [print("\t {}".format(complete)) for complete in completed]
+        for task in completed:
+            print("\t {}".format(task))
+    else:
+        print("Please provide an employee ID as a command-line argument.")
