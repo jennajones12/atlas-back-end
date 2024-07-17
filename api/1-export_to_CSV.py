@@ -25,8 +25,9 @@ if __name__ == "__main__":
 
         # Fetch the to-do list items associated with the user ID
         todos_response = requests.get(
-            f"{base_url}todos", params={
-                "userId": user_id})
+            f"{base_url}todos",
+            params={"userId": user_id}
+        )
         todos_response.raise_for_status()  # Raise an error for non-200 status codes
         todos = todos_response.json()
 
