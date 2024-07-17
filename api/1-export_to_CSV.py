@@ -19,7 +19,7 @@ if __name__ == "__main__":
     try:
         # Fetch user information from the API
         user_response = requests.get(f"{base_url}users/{user_id}")
-        user_response.raise_for_status()  # Raise an error for non-200 status codes
+        user_response.raise_for_status()
         user = user_response.json()
         username = user.get("username")
 
@@ -28,11 +28,12 @@ if __name__ == "__main__":
             f"{base_url}todos",
             params={"userId": user_id}
         )
-        todos_response.raise_for_status()  # Raise an error for non-200 status codes
+        todos_response.raise_for_status()
         todos = todos_response.json()
 
         # Write to CSV file
-        with open(f"{user_id}.csv", "w", newline="", encoding="utf-8") as csvfile:
+        with open(f"{user_id}.csv", "w", newline="",
+                  encoding="utf-8") as csvfile:
             csv_writer = csv.writer(csvfile)
             csv_writer.writerow(["User ID", "Username", "Completed", "Title"])
 
@@ -48,5 +49,6 @@ if __name__ == "__main__":
 
     except (KeyError, IndexError) as e:
         print(
-            f"Error: {e}. Please check if the provided user ID '{user_id}' is valid.")
+            f"Error: {e}. Please check if the provided
+            user ID '{user_id}' is valid.")
         sys.exit(1)
